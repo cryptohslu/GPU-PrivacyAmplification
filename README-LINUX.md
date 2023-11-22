@@ -16,8 +16,8 @@ To install all requirements in Arch Linux, run
 
 ## Compile
 
-To run on a NVIDIA GeForce GTX 1070
+To run on a NVIDIA GeForce GTX 1070 using CUDA
 
 ```shell
-CUDA_PATH=/opt/cuda SMS=61 make
+CUDA_PATH=/opt/cuda HOST_COMPILER=/opt/cuda/bin/gcc SMS=61 make
 ```
