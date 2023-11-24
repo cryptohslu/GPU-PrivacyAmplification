@@ -3,7 +3,12 @@
 Here are some additional instructions to compile and run this project
 
 ## Requirements
+
+### CUDA implementation
 - [`libzmq`](https://github.com/zeromq/libzmq)
+- cuda
+
+### Vulkan implementation
 - vulkan-tools
 - glslang
 
@@ -12,6 +17,8 @@ To install all requirements in Arch Linux, run
 ```shell
 # pacman -S cuda zeromq vulkan-tools glslang
 ```
+
+At the moment, current `Makefile` does not allow to compile the Vulkan implementation without `cuda`. We should fix this.
 
 
 ## Compile
