@@ -7,7 +7,7 @@ LIBS = -pthread -lzmq -lvulkan -l:libSPIRV.a -l:libMachineIndependent.a -l:libGe
 
 all:
 	sh compileGLSL.sh
-	ln PrivacyAmplification.cu PrivacyAmplification.cpp
+	ln -sf PrivacyAmplification.cu PrivacyAmplification.cpp
 	$(CXX) $(CXXFLAGS) $(INC) -o PrivacyAmplification PrivacyAmplification.cpp yaml/Yaml.cpp $(LIBDIRS) $(LIBS)
 	rm -f PrivacyAmplification.cpp
 
