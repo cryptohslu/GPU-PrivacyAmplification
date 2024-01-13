@@ -1,0 +1,3 @@
+[submodule "PrivacyAmplification/glslang"]
+	path = PrivacyAmplification/glslang
+	url = https://github.com/KhronosGroup/glslang.git
