@@ -1,15 +1,36 @@
-CXX = g++
-CXXFLAGS = -O2 -g -Wall -std=c++17
-INC=-I./glslang/glslang/Include
-#glslang libraries should be under /usr/lib/x86_64-linux-gnu/ - If not build them yourself: cd ./glslang-master/ && mkdir build && cd build &&  cmake .. && make && cd ../../
-LIBDIRS = -L./glslang/build/glslang -L./glslang/build/glslang/OSDependent/Unix -L./glslang/build/SPIRV -L./glslang/build/OGLCompilersDLL
-LIBS = -pthread -lzmq -lvulkan -l:libSPIRV.a -l:libMachineIndependent.a -l:libGenericCodeGen.a -l:libOSDependent.a -l:libOGLCompiler.a -l:libglslang.a
+CXX       = g++
+CXXFLAGS  = -std=c++17
+CXXFLAGS += -Wall -Wextra
+CXXFLAGS += -O2
+CXXFLAGS += -g
 
-all:
+#INC       = -I/usr/include/glslang/Include/
+INC       = -I./glslang/glslang/Include/
+INC      += -I./VkFFT/vkFFT -I./VkFFT/benchmark_scripts/vkFFT_scripts/include
+LIBS      = -pthread -lzmq -lvulkan
+LIBS     += -l:libSPIRV.a -l:libMachineIndependent.a -l:libGenericCodeGen.a -l:libOSDependent.a -l:libOGLCompiler.a -l:libglslang.a
+LIBDIRS   = -L./glslang/build/glslang -L./glslang/build/glslang/OSDependent/Unix -L./glslang/build/SPIRV -L./glslang/build/OGLCompilersDLL
+
+.PHONY: all
+all: glsl PrivacyAmplification
+
+.PHONY: glsl
+glsl:
 	sh compileGLSL.sh
-	ln -sf PrivacyAmplification.cu PrivacyAmplification.cpp
-	$(CXX) $(CXXFLAGS) $(INC) -o PrivacyAmplification PrivacyAmplification.cpp yaml/Yaml.cpp $(LIBDIRS) $(LIBS)
-	rm -f PrivacyAmplification.cpp
+
+utils_VkFFT.o: VkFFT/benchmark_scripts/vkFFT_scripts/src/utils_VkFFT.cpp VkFFT/benchmark_scripts/vkFFT_scripts/include/utils_VkFFT.h
+	${CXX} ${CXXFLAGS} ${INC} -c $<
+
+Yaml.o: yaml/Yaml.cpp yaml/Yaml.hpp
+	${CXX} ${CXXFLAGS} -c $<
+
+PrivacyAmplification.o: PrivacyAmplification.cpp PrivacyAmplification.h
+	${CXX} ${CXXFLAGS} ${INC} -c $<
+
+
+PrivacyAmplification: PrivacyAmplification.o utils_VkFFT.o Yaml.o
+	${CXX} ${CXXFLAGS} ${INC} -o $@ $^ ${LIBDIRS} ${LIBS}
 
 clean:
-	$(RM) PrivacyAmplification
+	${RM} -v *.o PrivacyAmplification
+	${RM} -r SPIRV

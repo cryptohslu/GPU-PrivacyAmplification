@@ -1,3 +1,6 @@
 [submodule "PrivacyAmplification/glslang"]
 	path = PrivacyAmplification/glslang
 	url = https://github.com/KhronosGroup/glslang.git
+[submodule "PrivacyAmplification/VkFFT"]
+	path = PrivacyAmplification/VkFFT
+	url = https://github.com/DTolm/VkFFT.git
