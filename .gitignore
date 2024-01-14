@@ -369,3 +369,4 @@ PrivacyAmplification/ampout.bin
 examples/MatrixSeedServerExample/MatrixSeedServerExample
 examples/ReceiveAmpOutExample/ReceiveAmpOutExample
 examples/SendKeysExample/SendKeysExample
+examples/LargeBlocksizeExample/LargeBlocksizeExample
