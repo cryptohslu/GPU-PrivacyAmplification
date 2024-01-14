@@ -31,6 +31,10 @@ PrivacyAmplification.o: PrivacyAmplification.cpp PrivacyAmplification.h
 PrivacyAmplification: PrivacyAmplification.o utils_VkFFT.o Yaml.o
 	${CXX} ${CXXFLAGS} ${INC} -o $@ $^ ${LIBDIRS} ${LIBS}
 
+.PHONY: speedtest
+speedtest: PrivacyAmplification glsl
+	./$^ $@
+
 .PHONY: clean
 clean:
 	${RM} -v *.o PrivacyAmplification

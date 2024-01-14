@@ -1,28 +1,43 @@
-vulkan_installed := $(shell command -v vulkaninfo 2> /dev/null)
-glslang_installed := $(shell command -v glslangValidator 2> /dev/null)
+.PHONY: vulkan
+vulkan: vulkan-impl files examples
 
-all:
-		rm -rf build
-		mkdir build
-ifdef vulkan_installed
-ifdef glslang_installed
-		cd PrivacyAmplification && $(MAKE) vulkan && cp -a PrivacyAmplification ../build
-endif
-endif
-		cd PrivacyAmplification && $(MAKE) cuda && cp -a PrivacyAmplificationCuda ../build
-		cd examples/SendKeysExample && $(MAKE) && cp -a SendKeysExample ../../build
-		cd examples/MatrixSeedServerExample && $(MAKE) && cp -a MatrixSeedServerExample ../../build
-		cd examples/ReceiveAmpOutExample && $(MAKE) && cp -a ReceiveAmpOutExample ../../build
-		cd examples/LargeBlocksizeExample && $(MAKE) && cp -a LargeBlocksizeExample ../../build
-		cp -a PrivacyAmplification/keyfile.bin ./build
-		cp -a PrivacyAmplification/toeplitz_seed.bin ./build
-		cp -a PrivacyAmplification/ampout.sh3 ./build
-		ln PrivacyAmplification/config.yaml ./build/config.yaml
+.PHONY: cuda
+cuda: cuda-impl files examples
 
+.PHONY: all
+all: vulkan-impl cuda-impl files examples
+
+.PHONY: vulkan-impl
+vulkan-impl:
+	mkdir -p build
+	${MAKE} -C PrivacyAmplification vulkan
+	cp -a PrivacyAmplification/PrivacyAmplification ./build
+	cp -a PrivacyAmplification/SPIRV ./build
+
+.PHONY: cuda-impl
+cuda-impl: files
+	mkdir -p build
+	${MAKE} -C PrivacyAmplification cuda
+	cp -a PrivacyAmplification/PrivacyAmplificationCuda ./build
+
+.PHONY: examples
+examples:
+	for example in SendKeysExample MatrixSeedServerExample ReceiveAmpOutExample LargeBlocksizeExample ; do \
+		${MAKE} -C examples/$$example ; \
+		cp -a examples/$$example/$$example ./build ; \
+	done
+
+.PHONY: files
+files:
+	cp -a PrivacyAmplification/keyfile.bin ./build
+	cp -a PrivacyAmplification/toeplitz_seed.bin ./build
+	cp -a PrivacyAmplification/ampout.sh3 ./build
+	cp -a PrivacyAmplification/config.yaml ./build/config.yaml
+
+.PHONY: clean
 clean:
-		rm -rf build
-		cd PrivacyAmplification && $(MAKE) clean
-		cd examples/SendKeysExample && $(MAKE) clean
-		cd examples/MatrixSeedServerExample && $(MAKE) clean
-		cd examples/ReceiveAmpOutExample && $(MAKE) clean
-		cd examples/LargeBlocksizeExample && $(MAKE) clean
+	${RM} -rf build
+	${MAKE} -C PrivacyAmplification clean
+	for example in SendKeysExample MatrixSeedServerExample ReceiveAmpOutExample LargeBlocksizeExample ; do \
+		${MAKE} -C examples/$$example clean ; \
+	done

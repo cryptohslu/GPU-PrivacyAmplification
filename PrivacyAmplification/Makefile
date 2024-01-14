@@ -1,13 +1,13 @@
 all:
-	make -f MakefileVulkan.mk
-	make -f MakefileCuda.mk
+	${MAKE} -f MakefileVulkan.mk
+	${MAKE} -f MakefileCuda.mk
 
 vulkan:
-	make -f MakefileVulkan.mk
+	${MAKE} -f MakefileVulkan.mk
 
 cuda:
-	make -f MakefileCuda.mk
+	${MAKE} -f MakefileCuda.mk
 
 clean:
-	make -f MakefileVulkan.mk clean
-	make -f MakefileCuda.mk clean
+	${MAKE} -f MakefileVulkan.mk clean
+	${MAKE} -f MakefileCuda.mk clean
