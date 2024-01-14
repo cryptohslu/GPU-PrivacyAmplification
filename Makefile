@@ -22,6 +22,7 @@ cuda-impl: files
 
 .PHONY: examples
 examples:
+	mkdir -p build
 	for example in SendKeysExample MatrixSeedServerExample ReceiveAmpOutExample LargeBlocksizeExample ; do \
 		${MAKE} -C examples/$$example ; \
 		cp -a examples/$$example/$$example ./build ; \
@@ -29,6 +30,7 @@ examples:
 
 .PHONY: files
 files:
+	mkdir -p build
 	cp -a PrivacyAmplification/keyfile.bin ./build
 	cp -a PrivacyAmplification/toeplitz_seed.bin ./build
 	cp -a PrivacyAmplification/ampout.sh3 ./build
