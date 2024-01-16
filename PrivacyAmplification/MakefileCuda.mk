@@ -156,7 +156,7 @@ else ifneq ($(TARGET_ARCH),$(HOST_ARCH))
         HOST_COMPILER ?= powerpc64le-linux-gnu-g++
     endif
 endif
-HOST_COMPILER ?= g++
+HOST_COMPILER ?= g++-12
 NVCC          := $(CUDA_PATH)/bin/nvcc -ccbin $(HOST_COMPILER)
 
 # internal flags
@@ -165,7 +165,7 @@ CCFLAGS     :=
 LDFLAGS     :=
 
 # build flags
-NVCCFLAGS   += -std=c++14
+NVCCFLAGS   += -std=c++17
 ifeq ($(TARGET_OS),darwin)
     LDFLAGS += -rpath $(CUDA_PATH)/lib
     CCFLAGS += -arch $(HOST_ARCH)
@@ -269,9 +269,9 @@ LIBRARIES :=
 
 # Gencode arguments
 ifeq ($(TARGET_ARCH),$(filter $(TARGET_ARCH),armv7l aarch64))
-SMS ?= 35 37 50 52 60 61 70 72 75
+SMS ?= 50 52 60 61 70 72 75
 else
-SMS ?= 35 37 50 52 60 61 70 75
+SMS ?= 50 52 60 61 70 75
 endif
 
 ifeq ($(SMS),)
