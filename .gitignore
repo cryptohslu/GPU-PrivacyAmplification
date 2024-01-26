@@ -365,6 +365,7 @@ FodyWeavers.xsd
 build/*
 PrivacyAmplificationSetup.exe
 PrivacyAmplification/PrivacyAmplification
+PrivacyAmplification/PrivacyAmplificationCuda
 PrivacyAmplification/ampout.bin
 examples/MatrixSeedServerExample/MatrixSeedServerExample
 examples/ReceiveAmpOutExample/ReceiveAmpOutExample
